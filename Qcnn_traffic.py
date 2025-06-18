@@ -113,11 +113,16 @@ def conv_param_circuit(qubit_one, qubit_two, circuit_file):
     return [(qubit_two,), (qubit_two, qubit_one), (qubit_one, qubit_two), (qubit_two,), (qubit_two, qubit_one), (qubit_one,)]
 
 def convolution_operations(occupied_qubits, node_address, circuit_file):
-    combinations = list(itertools.combinations(occupied_qubits, 2))
-    #print("Qubit Combinations")
-    #print(combinations)
-    #circuit_file.write("Conv Layer: ")
-    for i in combinations:
+
+    num_qubits = len(occupied_qubits)
+    if (num_qubits > 2):
+        qubit_combinations = [(occupied_qubits[i], occupied_qubits[(i+1) % num_qubits]) for i in range(num_qubits)]
+    else:
+        qubit_combinations = [(occupied_qubits[0], occupied_qubits[1])]
+
+    print(qubit_combinations)
+
+    for i in qubit_combinations:
         conv_circuit = conv_param_circuit(i[0], i[1], circuit_file)
         write_circuit(conv_circuit, circuit_file)
 
@@ -154,7 +159,7 @@ def select_nodes(window_size, network, file):
     workload = []
 
     if leftover_neurons < network.get_num_qubits() * len(available_nodes):
-        current_node = random.choice(available_nodes)
+        current_node = available_nodes[0]
         available_nodes.remove(current_node)
 
         for i in range(leftover_neurons):
@@ -187,7 +192,7 @@ def cnn_traffic(num_qubits, network, circuit_file):
 
     window_size = math.floor(((input_size - kernel_size + 2 * padding) / stride_conv) + 1)
     workload_list = select_nodes(window_size, network, circuit_file)
-    print(workload_list)
+    #(workload_list)
     while len(workload_list) > 1:
 
         if (i % 2) == 0:
