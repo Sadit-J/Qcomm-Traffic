@@ -8,8 +8,9 @@ from qiskit.transpiler.passes.analysis import num_qubits
 
 
 class Network():
-    def __init__(self, nodes, num_qubits):
+    def __init__(self, nodes, node_qubits, total_qubits):
         self.qubit_per_node = num_qubits
+        self.total_qubits = total_qubits
         self.nodes_list = nodes
 
     def available_nodes(self):
@@ -32,8 +33,12 @@ class Network():
 
         return None
 
-    def get_num_qubits(self):
+
+    def get_per_qubits(self):
         return self.qubit_per_node
+
+    def get_total_qubits(self):
+        return self.total_qubits
 
     def get_num_nodes(self):
         return len(self.nodes_list)
@@ -59,12 +64,19 @@ class Node():
         available_qubit = -1
         unoccupied_qubit = False
 
+        if "0" in self.qubit_list:
+            available_qubit = self.qubit_list.index("0")
+            self.qubit_list[available_qubit] = "1"
+            unoccupied_qubit = True
+
+        """
         while not unoccupied_qubit:
             available_qubit = random.randrange(len(self.qubit_list))
 
             if self.qubit_list[available_qubit] == "0":
                 self.qubit_list[available_qubit] = "1"
                 unoccupied_qubit = True
+        """
 
         return available_qubit
 
@@ -158,7 +170,7 @@ def select_nodes(window_size, network, file):
     leftover_neurons = window_size * window_size
     workload = []
 
-    if leftover_neurons < network.get_num_qubits() * len(available_nodes):
+    if leftover_neurons <= network.get_total_qubits():
         current_node = available_nodes[0]
         available_nodes.remove(current_node)
 
@@ -167,7 +179,9 @@ def select_nodes(window_size, network, file):
                 current_node = random.choice(available_nodes)
                 available_nodes.remove(current_node)
 
+
             workload.append(int(current_node.get_address()) + network.get_num_nodes() * current_node.occupy_qubits())
+            print("Address:", int(current_node.get_address()), "Qubit", ((workload[len(workload) - 1] - int(current_node.get_address()) ) // 16), "Qubit Number", workload[-1:])
 
     else:
         print("Not enough cores for largest slice")
@@ -192,8 +206,9 @@ def cnn_traffic(num_qubits, network, circuit_file):
 
     window_size = math.floor(((input_size - kernel_size + 2 * padding) / stride_conv) + 1)
     workload_list = select_nodes(window_size, network, circuit_file)
+    print(window_size)
     #(workload_list)
-    while len(workload_list) > 1:
+    while len(workload_list) > 2:
 
         if (i % 2) == 0:
             #conv layer
@@ -215,10 +230,15 @@ def main():
     node_list = []
     num_nodes = 16
 
-    for i in range(num_nodes):
+    node_list.append(Node(0, num_qubits + 1, int(math.sqrt(num_nodes))))
+    node_list.append(Node(1, num_qubits + 1, int(math.sqrt(num_nodes))))
+    node_list.append(Node(2, num_qubits + 1, int(math.sqrt(num_nodes))))
+    node_list.append(Node(3, num_qubits + 1, int(math.sqrt(num_nodes))))
+
+    for i in range(4, num_nodes):
         node_list.append(Node(i, num_qubits, int(math.sqrt(num_nodes))))
 
-    current_Network = Network(node_list, num_qubits)
+    current_Network = Network(node_list, num_qubits, 100)
 
 
     cnn_traffic(num_qubits, current_Network, f)
