@@ -1,7 +1,6 @@
 from bitlist import bitlist
 import random
 import math
-import itertools
 
 class Network():
     def __init__(self, nodes, node_qubits, total_qubits):
@@ -64,15 +63,6 @@ class Node():
             available_qubit = self.qubit_list.index("0")
             self.qubit_list[available_qubit] = "1"
             unoccupied_qubit = True
-
-        """
-        while not unoccupied_qubit:
-            available_qubit = random.randrange(len(self.qubit_list))
-
-            if self.qubit_list[available_qubit] == "0":
-                self.qubit_list[available_qubit] = "1"
-                unoccupied_qubit = True
-        """
 
         return available_qubit
 
@@ -185,8 +175,7 @@ def select_nodes(window_size, network, file):
 
     return workload
 
-def cnn_traffic(num_qubits, network, circuit_file):
-    maximum_grouping = num_qubits
+def cnn_traffic(network, circuit_file):
     kernel_size = 2
     input_size = 5
 
@@ -237,6 +226,6 @@ def main():
     current_Network = Network(node_list, num_qubits, 100)
 
 
-    cnn_traffic(num_qubits, current_Network, f)
+    cnn_traffic(current_Network, f)
 
 main()
