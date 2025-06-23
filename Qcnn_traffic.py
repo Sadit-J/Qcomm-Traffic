@@ -3,13 +3,9 @@ import random
 import math
 import itertools
 
-from matplotlib.style.core import available
-from qiskit.transpiler.passes.analysis import num_qubits
-
-
 class Network():
     def __init__(self, nodes, node_qubits, total_qubits):
-        self.qubit_per_node = num_qubits
+        self.qubit_per_node = node_qubits
         self.total_qubits = total_qubits
         self.nodes_list = nodes
 
