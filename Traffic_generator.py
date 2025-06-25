@@ -49,6 +49,10 @@ class Node():
         for i in range(num_qubits):
             self.qubit_list.append("0")
 
+    def add_qubits(self, add_num):
+        for i in range(add_num):
+            self.qubit_list.append("0")
+
     def get_available_qubits(self):
 
         # Returns a list of the all the available qubits within
@@ -103,11 +107,72 @@ class Node():
     def discard_qubits(self, discarded_qubits, num_nodes):
 
         self.qubit_list[(discarded_qubits - int(self.address) ) // num_nodes] = "Z"
+"""
+def createNodes(total_qubits, nodes_num):
+    node_list = []
+    iteration = 0
+
+    for i in range(nodes):
+        node_list.append(Node(i, 0, 4))
+
+    while (total_qubits > 0):
+        node_list[iteration % 16].add_qubits(1)
+
+
+    current_network = Network(node_list, total_qubits // nodes_num, total_qubits)    
+"""
 
 def getUserInput():
-    return
+    # read and extract parameters from architecture.txt
+    arch = open("samples/architecture.txt", "r")
+    read_arch = arch.readlines()
+    mesh_x = int(read_arch[0].strip("mesh_x "))
+    mesh_y = int(read_arch[1].strip("mesh_y "))
+
+    number_of_cores = mesh_x * mesh_y
+    qubits_per_core = int(read_arch[3].strip("qubits_per_core "))
+    number_of_qubits = qubits_per_core * number_of_cores
+    number_of_gates = int(input("Number of gates: "))
+
+    usable_qubits = number_of_qubits # initializes variable for while loop
+
+    while usable_qubits >= number_of_qubits:
+        usable_qubits = int(input(f"Number of logical qubits (must be <{number_of_qubits} qubits): "))
+
+    probabilities = [] # initialize list for storing probabilities
+    total_prob = 0 # initialize total probability tracker
+    n = 1 # initialize count for n-qubits
+    
+    # loops until total probability equals 1 or the number probabilities exceeds the number of gates
+    while total_prob != 1 and n <= number_of_gates:
+        n_qubit_gate_prob = float(input(f"{n}-qubit gate probability: "))
+
+        if not (0 <= n_qubit_gate_prob <= 1):
+            print(f"{n}-qubit gate probability must be less between or equal to 0 and 1.")
+            return
+        
+        # increment
+        total_prob += n_qubit_gate_prob
+        n += 1
+        
+        if total_prob > 1:
+            print("Total probability must be 0 or 1.")
+            return
+        
+        probabilities.append(n_qubit_gate_prob) # add probability to list
+
+    # ask user for the name of the file the generated circuit will be outputted on
+    file_name = ""
+    while ".txt" not in file_name:
+        file_name = input("Test circuit file name (include .txt): ")
+
+    return(number_of_cores, qubits_per_core, number_of_qubits, number_of_gates, usable_qubits, probabilities, file_name) # returns tuple
 
 def main():
+    circuit_parameters = getUserInput()
+
+
+
     return
 
 main()
