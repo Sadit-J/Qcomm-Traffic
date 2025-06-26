@@ -22,7 +22,7 @@ class Network():
         for node in self.nodes_list:
             node.reset_occupation()
 
-    #Returns all nodes in the network regardless of occupation
+    #Returns a specific node in the network regardless of occupation
     def get_node(self, node_address):
         for node in self.nodes_list:
             if node_address == node.get_address():
@@ -107,20 +107,23 @@ class Node():
     def discard_qubits(self, discarded_qubits, num_nodes):
 
         self.qubit_list[(discarded_qubits - int(self.address) ) // num_nodes] = "Z"
-"""
-def createNodes(total_qubits, nodes_num):
+
+def createNetwork(nodes_num, qubits_per, total_qubits):
     node_list = []
     iteration = 0
 
-    for i in range(nodes):
+    for i in range(nodes_num):
         node_list.append(Node(i, 0, 4))
 
     while (total_qubits > 0):
         node_list[iteration % 16].add_qubits(1)
+        iteration += 1
+        total_qubits -= 1
 
 
-    current_network = Network(node_list, total_qubits // nodes_num, total_qubits)    
-"""
+    current_network = Network(node_list, qubits_per, total_qubits)    
+    return current_network
+
 
 def getUserInput():
     # read and extract parameters from architecture.txt
@@ -169,9 +172,15 @@ def getUserInput():
     return(number_of_cores, qubits_per_core, number_of_qubits, number_of_gates, usable_qubits, probabilities, file_name) # returns tuple
 
 def main():
-    circuit_parameters = getUserInput()
-
-
+    #circuit_parameters = getUserInput()
+    
+    circuit_parameters = (16, 6, 160, 1000, 100, [1], "circuit.txt")
+    
+    current_network = createNetwork(circuit_parameters[0], circuit_parameters[1], circuit_parameters[4])
+    node_list = current_network.available_nodes()
+    for i in node_list:
+        print("Core:", int(i.get_address()))
+        print("Qubits:", len(i.get_available_qubits()))
 
     return
 
