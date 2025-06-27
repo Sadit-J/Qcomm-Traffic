@@ -39,7 +39,9 @@ def find_butterfly(network, num):
 
 
 def butterfly_traffic(network, no_gates, file):
+    file.write("(0) ")
     two_gate_chance = 0.5
+    restart_chance = 0.1
     dec_av_nodes = []
     src = 0
 
@@ -53,6 +55,7 @@ def butterfly_traffic(network, no_gates, file):
 
         while src%16 not in dec_av_nodes:
             print("NODE " + str(src%16) + " IS NOT AVAILABLE")
+            print("Available Nodes: " + str(dec_av_nodes))
             src = random.randint(0, 99)
         dec_av_nodes = []
 
@@ -70,6 +73,12 @@ def butterfly_traffic(network, no_gates, file):
             print("one qubit gate")
             network.get_node(src%16).occupy_qubits()
             file.write(f"({src}) ")
+        print(network.get_node(src % 16).qubit_list)
+
+        if len(network.available_nodes()) == 0 or random.random() < restart_chance:
+            print("reset happened!!!!!!!!!!!!!!!!")
+            file.write("\n")
+            network.free_all_nodes()
 
         src = random.randint(0, 99)
 

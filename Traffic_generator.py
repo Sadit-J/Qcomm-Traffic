@@ -1,4 +1,5 @@
 from bitlist import bitlist
+from Butterfly import butterfly_traffic
 import random
 import math
 
