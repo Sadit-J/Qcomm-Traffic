@@ -1,12 +1,14 @@
 from bitlist import bitlist
 from Network import Network, Node
-from hotspot import generate_hotspot_gates, print_scheduled_gates
+import math
 import random
 from ShuffleGen import shuffleGen
 from UniformComplementGen import complementGen
 from UniformComplementGen import uniformGen 
 from TranposeGen import transposeGen
-import math
+from Hotspot import hotspotGen
+from BitReversalGen import bitReversalGen
+from NearestNeighbourGen import neighbourGen
 
 def createNetwork(nodes_num, qubits_per, total_qubits):
     node_list = []
@@ -27,7 +29,7 @@ def createNetwork(nodes_num, qubits_per, total_qubits):
 
 def getUserInput():
     # read and extract parameters from architecture.txt
-    arch = open("samples/architecture.txt", "r")
+    arch = open("architecture.txt", "r")
     read_arch = arch.readlines()
     mesh_x = int(read_arch[0].strip("mesh_x "))
     mesh_y = int(read_arch[1].strip("mesh_y "))
@@ -69,12 +71,12 @@ def getUserInput():
     while ".txt" not in file_name:
         file_name = input("Test circuit file name (include .txt): ")
 
-    return (number_of_cores, qubits_per_core, number_of_qubits, number_of_gates, usable_qubits, probabilities, file_name) # returns tuple
+    return (number_of_cores, qubits_per_core, number_of_qubits, number_of_gates, usable_qubits, probabilities, file_name, mesh_x, mesh_y) # returns tuple
 
 def main():
-    #circuit_parameters = getUserInput()
+    circuit_parameters = getUserInput()
     
-    circuit_parameters = (16, 6, 100, 1000, 100, [0.25, 0.75], "circuit.txt");
+    # circuit_parameters = (16, 6, 100, 1000, 100, [0.25, 0.75], "circuit.txt");
 
     file = open(circuit_parameters[6], "w")
     current_network = createNetwork(circuit_parameters[0], circuit_parameters[1], circuit_parameters[4])
@@ -85,7 +87,9 @@ def main():
     #transposeGen(current_network, circuit_parameters[6], circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
     #complementGen(current_network, 1000, file)
     #uniformGen(current_network, 1000, file)
-    #print_scheduled_gates(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
+    #hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
+    #bitReversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
+    neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
 
     return
 

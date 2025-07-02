@@ -2,16 +2,62 @@ import numpy as np
 import math as m
 from numpy import random
 
-def bitReverse(i, b):
-    j = "" # initialize reversed string
-    original = format(i, f"0{b}b") # convert from decimal to binary with specified bit string length
+def adjacentCore(i, width, length):
+    noc_array = []
+    count = width # helper variable
+    
+    # creates 2D array of cores in sequential order in rows then columns
+    for y in range(length):
+        noc_array.append([])
+        x = count - width
+        while x < count:
+            noc_array[y].append(x)
+            x += 1
+        count += width
 
-    # iterate through digits in reverse and add to reversed string
-    for digit in reversed(original):
-        j += digit
+    row_number = 0 # track row index
 
-    reverse = int(j, 2) # convert binary to decimal
-    return reverse
+    # determines the coordinate of the core
+    for row in noc_array:
+        column_number = 0 # track column index
+        for column in row:
+            if column == i:
+                source_coord = [row_number, column_number]
+                break
+            column_number += 1
+        row_number += 1
+
+    # determines destination (adjacent) coordinate
+    while True:
+        destination_coord = source_coord.copy() # so that when modifying destination coordinate it doesn't point to the source coordinate
+
+        # randomly generates addition or subtraction operation to column or row number of source coordinate
+        add_or_subtract = random.randint(0, 2)
+        row_or_column = random.randint(0, 2)
+        
+        if add_or_subtract == 0:
+            # add to row number
+            if row_or_column == 0:
+                destination_coord[0] += 1
+            # add to column number
+            if row_or_column == 1:
+                destination_coord[1] += 1
+
+        if add_or_subtract == 1:
+            # subtract to row number
+            if row_or_column == 0:
+                destination_coord[0] -= 1
+            # substract to column number
+            if row_or_column == 1:
+                destination_coord[1] -= 1
+
+        # breaks the loop if the generated coordinates is within bounds of the array
+        if 0 <= destination_coord[0] < len(noc_array) and 0 <= destination_coord[1] < len(noc_array[0]):
+            break
+    
+    j = noc_array[destination_coord[0]][destination_coord[1]]
+
+    return j
 
 def intToList(i):
     my_list = []
@@ -24,7 +70,7 @@ def findCore(dictionary, desired_value):
         if desired_value in number:
             return key
 
-def bitReversalGen(a, b, c, d, q, r, s, t, u):
+def neighbourGen(a, b, c, d, q, r, s, t, u):
     cores = a
     qpc = b
     qubits = c
@@ -34,14 +80,14 @@ def bitReversalGen(a, b, c, d, q, r, s, t, u):
     file = s
     x = t
     y = u
-    
+
     # number of bits to perform bit reversal on depends on the amount of cores
     bits = m.log(cores, 2)
     bits = m.ceil(bits)
 
     gate_list = intToList(len(probs)) # convert number of gates to list of n-qubit gates
 
-    random_size_gate_list = random.choice(gate_list, p = probs, size = (gates)).tolist() # list of 1, 2 ... n-qubit gates; probability of each; size of final list which is total amount of gates
+    random_size_gate_list = np.random.choice(gate_list, p = probs, size = (gates)).tolist() # list of 1, 2 ... n-qubit gates; probability of each; size of final list which is total amount of gates
 
     with open(file, "w") as test_circuit:
         mapper = {} # maps qubits to cores
@@ -73,11 +119,12 @@ def bitReversalGen(a, b, c, d, q, r, s, t, u):
                 source_qubit = random.randint(usable)
                 corresponding_core = findCore(mapper, source_qubit)
 
-                reversed_core = bitReverse(corresponding_core, bits)
+
+                adjacent_core = adjacentCore(corresponding_core, x, y)
 
                 # makes sure qubits are not repeated within the same 2-qubit gate
                 while True:
-                    destination_qubit = np.random.choice(mapper[reversed_core])
+                    destination_qubit = np.random.choice(mapper[adjacent_core])
                     if destination_qubit != source_qubit:
                         break
                 
@@ -105,7 +152,7 @@ def bitReversalGen(a, b, c, d, q, r, s, t, u):
 
             # check if any numbers have been repeated
             repeating = [element for element in set(current_slice) if current_slice.count(element) > 1]
-
+            
             # new line if qubit is repeating or the random number generated is greater than 0.5
             if repeating or (random.random() > 0.5 and gate_index != 0):
                 index = string.rfind("(")
