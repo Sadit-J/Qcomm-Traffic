@@ -64,7 +64,7 @@ def generateCircuit(current_network, oneInputGates,twoInputGates, oneInputChance
                 file.write(" ".join(outputSplice))
                 file.write(" \n")
 
-def transposeCircuit(current_network, file_name, oneInputChance, twoInputChance, numOfGates):
+def transposeGen(current_network, file_name, oneInputChance, twoInputChance, numOfGates):
     oneInputGates = math.floor(oneInputChance*numOfGates)
     twoInputGates = math.floor(twoInputChance*numOfGates)
     generateCircuit(current_network, oneInputGates,twoInputGates, oneInputChance, file_name)
