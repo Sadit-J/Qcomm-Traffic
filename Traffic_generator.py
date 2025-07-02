@@ -1,5 +1,6 @@
 from bitlist import bitlist
 from Network import Network, Node
+from hotspot import generate_hotspot_gates, print_scheduled_gates
 import random
 from ShuffleGen import shuffleGen
 from UniformComplementGen import complementGen
@@ -84,6 +85,7 @@ def main():
     #transposeGen(current_network, circuit_parameters[6], circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
     #complementGen(current_network, 1000, file)
     #uniformGen(current_network, 1000, file)
+    #print_scheduled_gates(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
 
     return
 

@@ -74,7 +74,7 @@ def generate_hotspot_gates(network, ngates, p_one_qubit, p_two_qubit):
             num_one_qubit -= 1
 
     return gates
-def print_scheduled_gates(gates):
+def print_scheduled_gates(gates, file):
     busy = set()
     stage = []
 
@@ -86,7 +86,7 @@ def print_scheduled_gates(gates):
                     line.append(f"({g[0]})")
                 else:
                     line.append(f"({g[0]} {g[1]})")
-            print(" ".join(line))
+            file.write(" ".join(line) + "\n")
 
     for g in gates:
         src, dst = g
@@ -102,4 +102,5 @@ def print_scheduled_gates(gates):
             if dst != -1:
                 busy.add(dst)
 
-    flush_stage(stage)  #print remaining stage if any
+    flush_stage(stage)  # print remaining stage
+
