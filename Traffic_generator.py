@@ -66,21 +66,49 @@ def getUserInput():
         probabilities.append(n_qubit_gate_prob) # add probability to list
 
     # ask user for the name of the file the generated circuit will be outputted on
+    patterns = ["uniform.txt", "complement.txt", "reversal.txt", "shuffle.txt", "neighbour.txt", "transpose.txt", "hotspot.txt", "butterfly.txt", "qcnn.txt", "qae.txt"]
     file_name = ""
-    while ".txt" not in file_name:
-        file_name = input("Test circuit file name (include .txt): ")
+    while file_name not in patterns:
+        print("Choices:")
+        for pattern in patterns:
+            print("- "+ pattern)
+        file_name = input("Test circuit file name: ")
 
-    return (number_of_cores, qubits_per_core, number_of_qubits, number_of_gates, usable_qubits, probabilities, file_name, mesh_x, mesh_y) # returns tuple
+    return(number_of_cores, qubits_per_core, number_of_qubits, number_of_gates, usable_qubits, probabilities, file_name, mesh_x, mesh_y) # returns tuple
 
 def main():
     circuit_parameters = getUserInput()
     
     # circuit_parameters = (16, 6, 100, 1000, 100, [0.25, 0.75], "circuit.txt");
 
-    file = open(circuit_parameters[6], "w")
+    circuit_path = f"circuits/{circuit_parameters[6]}"
+    simulation_path = f"simulations/{circuit_parameters[6]}"
+
+    file = open(circuit_path, "w")
     current_network = createNetwork(circuit_parameters[0], circuit_parameters[1], circuit_parameters[4])
     node_list = current_network.available_nodes()
-
+    
+    match circuit_parameters[6]:
+        case "uniform.txt":
+            pass
+        case "complement.txt":
+            pass
+        case "reversal.txt":
+            pass
+        case "shuffle.txt":
+            pass
+        case "neighbour.txt":
+            pass
+        case "transpose.txt":
+            pass
+        case "hotspot.txt":
+            pass
+        case "butterfly.txt":
+            pass
+        case "qcnn.txt":
+            pass
+        case "qae.txt":
+            pass
     
     #shuffleGen(current_network, circuit_parameters[6], circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
     #transposeGen(current_network, circuit_parameters[6], circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
