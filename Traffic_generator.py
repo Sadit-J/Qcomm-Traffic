@@ -26,7 +26,6 @@ def createNetwork(nodes_num, qubits_per, total_qubits):
     current_network = Network(node_list, qubits_per, total_qubits)    
     return current_network
 
-
 def getUserInput():
     # read and extract parameters from architecture.txt
     arch = open("architecture.txt", "r")
@@ -92,5 +91,6 @@ def main():
     neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
 
     return
+
 
 main()
