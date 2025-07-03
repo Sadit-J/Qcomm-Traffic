@@ -9,6 +9,7 @@ from TranposeGen import transposeGen
 from Hotspot import hotspotGen
 from BitReversalGen import bitReversalGen
 from NearestNeighbourGen import neighbourGen
+from QAE_gen import QAE
 
 def createNetwork(nodes_num, qubits_per, total_qubits):
     node_list = []
@@ -89,7 +90,9 @@ def main():
     #uniformGen(current_network, 1000, file)
     #hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
     #bitReversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
-    neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
+    #neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
+    QAE(int(math.sqrt(circuit_parameters[0])),circuit_parameters[1],circuit_parameters[2],circuit_parameters[6])
+
 
     return
 

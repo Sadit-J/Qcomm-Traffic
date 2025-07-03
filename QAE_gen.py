@@ -4,8 +4,6 @@ def attainParamaters():
     return numbers[1],numbers[3]
 
 
-size, numOfQubits = attainParamaters()
-
 def encoder(network,initial_size, compressed_size):
         outputSplice = []
         result = []
@@ -111,30 +109,31 @@ class Network:
 
     def getNodes(self):
         return self.nodes
-    
-initial_size = int(input(f"You have {numOfQubits} qubits per node, how many would you like to use for your message: "))
-compressed_size = int(input(f"How Many Qubits would you like to compress to: "))
-reference_space = initial_size - compressed_size
 
 
-name = input("Enter File name: ")
-#Create Network
-network = Network([],size)
-for i in range(size):
-    for j in range(size):
-      network.addNode(Node(i*size+j,size,(i,j)),i,j)
-qubits = [0] * numOfQubits * size*size 
+def QAE(size, qubits_per_core,numOfQubits,file_name):
+    initial_size = qubits_per_core - 3
+    compressed_size = initial_size - 2 
+    reference_space = initial_size - compressed_size
 
-encoder = encoder(network,initial_size,compressed_size)
-with open(f"{name}.txt", "w") as f:
-    for layer in encoder:
-        f.write(" ".join(layer) + "\n")
 
-# swap_test = swap_test(network,initial_size,compressed_size)
-# with open(f"{name}.txt", "a") as f:
-#     for layer in swap_test:
-#         f.write(" ".join(layer) + "\n")
+    #Create Network
+    network = Network([],size)
+    for i in range(size):
+        for j in range(size):
+            network.addNode(Node(i*size+j,size,(i,j)),i,j)
+    qubits = [0] * numOfQubits * size*size 
 
-with open(f"{name}.txt", "a") as f:
-    for layer in reversed(encoder):
-        f.write(" ".join(layer) + "\n")
+    encoder_layer = encoder(network,initial_size,compressed_size)
+    with open(file_name, "w") as f:
+        for layer in encoder_layer:
+            f.write(" ".join(layer) + "\n")
+
+    # swap_test = swap_test(network,initial_size,compressed_size)
+    # with open(f"{name}.txt", "a") as f:
+    #     for layer in swap_test:
+    #         f.write(" ".join(layer) + "\n")
+
+    with open(file_name, "a") as f:
+        for layer in reversed(encoder_layer):
+            f.write(" ".join(layer) + "\n")
