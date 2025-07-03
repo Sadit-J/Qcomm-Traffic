@@ -2,6 +2,7 @@ from bitlist import bitlist
 from Network import Network, Node
 import math
 import random
+import subprocess
 from ShuffleGen import shuffleGen
 from UniformComplementGen import complementGen
 from UniformComplementGen import uniformGen 
@@ -9,6 +10,7 @@ from TranposeGen import transposeGen
 from Hotspot import hotspotGen
 from BitReversalGen import bitReversalGen
 from NearestNeighbourGen import neighbourGen
+from Butterfly import butterflyGen
 
 def createNetwork(nodes_num, qubits_per, total_qubits):
     node_list = []
@@ -87,6 +89,8 @@ def main():
     file = open(circuit_path, "w")
     current_network = createNetwork(circuit_parameters[0], circuit_parameters[1], circuit_parameters[4])
     node_list = current_network.available_nodes()
+
+    cmd = ["./qcomm", "-a", "architecture.txt", "-p", "parameters.txt", "-c", circuit_path]
     
     match circuit_parameters[6]:
         case "uniform.txt":
@@ -98,7 +102,9 @@ def main():
         case "shuffle.txt":
             pass
         case "neighbour.txt":
-            pass
+            neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
         case "transpose.txt":
             pass
         case "hotspot.txt":
@@ -110,13 +116,13 @@ def main():
         case "qae.txt":
             pass
     
-    #shuffleGen(current_network, circuit_parameters[6], circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
-    #transposeGen(current_network, circuit_parameters[6], circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+    #shuffleGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+    #transposeGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
     #complementGen(current_network, 1000, file)
     #uniformGen(current_network, 1000, file)
     #hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
-    #bitReversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
-    neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
+    #bitReversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
+    
 
     return
 

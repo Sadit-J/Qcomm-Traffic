@@ -38,7 +38,7 @@ def find_butterfly(network, num):
 
 
 
-def butterfly_traffic(network, no_gates, file):
+def butterflyGen(network, no_gates, file):
     file.write("(0) ")
     two_gate_chance = 0.5
     restart_chance = 0.1
