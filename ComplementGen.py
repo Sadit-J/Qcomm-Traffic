@@ -31,11 +31,12 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
 
     traffic = []
     possible_nodes = network.available_nodes()
-    src = possible_nodes[0]
-    chosen_qubit = src.occupy_qubits()
-
+    
     for i in range(slice_complexity):
 
+            
+            src = random.choice(possible_nodes)
+            chosen_qubit = src.occupy_random()
             possible_nodes = network.available_nodes()
 
             bit_complement(network, src, chosen_qubit, traffic, possible_nodes)
@@ -46,9 +47,6 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
 
             if random.random() < splice_end_prob:
                 break
-
-            src = random.choice(possible_nodes)
-            chosen_qubit = src.occupy_random()
 
     return traffic
 
@@ -69,8 +67,9 @@ def complementGen(current_network, user_gates, file):
     possible_nodes = current_network.available_nodes()
     src = possible_nodes[0]
     src_qubit = src.occupy_qubits()
-    bit_complement(current_network, src, src_qubit, traffic_pattern, possible_nodes)
+    traffic_pattern = bit_complement(current_network, src, src_qubit, traffic_pattern, possible_nodes)
     write_file(traffic_pattern, file)
+    current_network.free_all_nodes()
 
 
     while total_gates < user_gates:
