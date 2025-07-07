@@ -9,7 +9,7 @@ from ReversalGen import reversalGen
 from ShuffleGen import shuffleGen
 from NearestNeighbourGen import neighbourGen
 from TransposeGen import transposeGen
-from Hotspot import hotspotGen
+from Hotspot import hotspotGen, generate_hotspot_gates
 from Butterfly import butterflyGen
 from QCNN import qcnnGen
 # from QAE import qaeGen
@@ -101,7 +101,7 @@ def main():
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
         case "complement.txt":
-            complementGen(current_network, 1000, file)
+            complementGen(current_network, circuit_parameters[3], file)
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
@@ -126,6 +126,7 @@ def main():
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
         case "hotspot.txt":
+            hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
@@ -142,12 +143,6 @@ def main():
         case "qae.txt":
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
-    
-    #
-    #
-    # hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
-    #
-    #
     
 
     return

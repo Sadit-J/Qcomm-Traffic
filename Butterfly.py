@@ -39,7 +39,7 @@ def find_butterfly(network, num):
 
 
 def butterflyGen(network, no_gates, file):
-    file.write("(0) ")
+    f = open(f"circuits/{file}", "w")
     two_gate_chance = 0.5
     restart_chance = 0.1
     dec_av_nodes = []
@@ -68,16 +68,16 @@ def butterflyGen(network, no_gates, file):
             dest = (dest % 16) + (16 * network.get_node(dest%16).occupy_qubits())
             print("NEW SRC: " + str(src))
             print("NEW DST: " + str(dest))
-            file.write(f"({src} {dest}) ")
+            f.write(f"({src} {dest}) ")
         else:
             print("one qubit gate")
             network.get_node(src%16).occupy_qubits()
-            file.write(f"({src}) ")
+            f.write(f"({src}) ")
         print(network.get_node(src % 16).qubit_list)
 
         if len(network.available_nodes()) == 0 or random.random() < restart_chance:
             print("reset happened!!!!!!!!!!!!!!!!")
-            file.write("\n")
+            f.write("\n")
             network.free_all_nodes()
 
         src = random.randint(0, 99)

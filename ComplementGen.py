@@ -79,6 +79,8 @@ def complementGen(current_network, user_gates, file):
 
         current_network.free_all_nodes()
         total_gates += len(traffic_pattern)
+    
+    file.close()
 
     
         
