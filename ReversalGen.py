@@ -24,7 +24,7 @@ def findCore(dictionary, desired_value):
         if desired_value in number:
             return key
 
-def reversalGen(a, b, c, d, q, r, s, t, u):
+def reversalGen(a, b, c, d, q, r, s):
     cores = a
     qpc = b
     qubits = c
@@ -32,8 +32,6 @@ def reversalGen(a, b, c, d, q, r, s, t, u):
     usable = q
     probs = r
     file = s
-    x = t
-    y = u
     
     # number of bits to perform bit reversal on depends on the amount of cores
     bits = m.log(cores, 2)

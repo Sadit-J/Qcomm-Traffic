@@ -3,15 +3,15 @@ from Network import Network, Node
 import math
 import random
 import subprocess
-from UniformComplementGen import uniformGen 
-from UniformComplementGen import complementGen
+# from UniformComplementGen import uniformGen 
+from ComplementGen import complementGen
 from ReversalGen import reversalGen
 from ShuffleGen import shuffleGen
 from NearestNeighbourGen import neighbourGen
 from TransposeGen import transposeGen
 from Hotspot import hotspotGen
 from Butterfly import butterflyGen
-from QCNN import qcnnGen
+# from QCNN import qcnnGen
 # from QAE import qaeGen
 
 def createNetwork(nodes_num, qubits_per, total_qubits):
@@ -143,7 +143,7 @@ def main():
     
     #
     #
-    hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
+    # hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
     #
     #
     

@@ -87,7 +87,7 @@ def select_nodes(window_size, network, file):
 
     return workload
 
-def cnn_traffic(network, circuit_file):
+def qcnnGen(network, circuit_file):
     input_size = 5
     workload_list = []
 
