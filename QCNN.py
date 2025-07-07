@@ -90,10 +90,11 @@ def select_nodes(window_size, network, file):
 def qcnnGen(network, circuit_file):
     input_size = 5
     workload_list = []
+    i = 0
 
 
     window_size = input_size * input_size
-    workload_list = select_nodes(window_size, network, circuit_file)
+    workload_list = select_nodes(input_size, network, circuit_file)
     print(window_size)
  
     print(workload_list)
@@ -102,7 +103,7 @@ def qcnnGen(network, circuit_file):
     # angleEncoderZ(window_size, network, circuit_file, 1, workload_list)
     angleEncoderZZ(window_size, network, circuit_file, 1, workload_list)
 
-    while len(workload_list) > 2:
+    while len(workload_list) > 1:
 
         if (i % 2) == 0:
             #conv layer

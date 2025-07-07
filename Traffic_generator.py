@@ -17,14 +17,15 @@ from QCNN import qcnnGen
 def createNetwork(nodes_num, qubits_per, total_qubits):
     node_list = []
     iteration = 0
+    leftover_qubits = total_qubits
 
     for i in range(nodes_num):
         node_list.append(Node(i, 0, 4))
 
-    while (total_qubits > 0):
+    while (leftover_qubits > 0):
         node_list[iteration % 16].add_qubits(1)
         iteration += 1
-        total_qubits -= 1
+        leftover_qubits -= 1
 
 
     current_network = Network(node_list, qubits_per, total_qubits)    
@@ -96,7 +97,7 @@ def main():
     
     match circuit_parameters[6]:
         case "uniform.txt":
-            reversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
+            uniformGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
@@ -136,7 +137,7 @@ def main():
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
         case "qcnn.txt":
-            qcnnGen(current_network, circuit_parameters[6])
+            qcnnGen(current_network, file)
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
