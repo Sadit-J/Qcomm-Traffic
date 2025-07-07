@@ -1,0 +1,89 @@
+
+*** Circuit ***
+Number of qubits: 100
+Number of gates: 1000
+Number of stages: 220
+Distribution of gates: 1-input: 50%, 2-input: 50%, 
+
+*** Architecture ***
+mesh_x x mesh_y: 4x4
+qubits_per_core: 10 (total physical qubits: 160)
+ltm_ports: 1
+teleportation_type: 0 (all to all)
+dst_selection_mode: 1 (load aware)
+wireless_enabled: 0
+mapping_type: 1 (sequential)
+
+*** Parameters ***
+gate delay (s): 1.5e-08
+epr delay (s): 1e-06
+dist delay (s): 1e-11
+pre delay (s): 3.9e-07
+post delay (s): 3e-08
+noc clock time (s): 1e-08
+wbit rate (bps): 1.2e+10
+token pass time (s): 1e-09
+memory mandwidth (bps): 1.28e+11
+bits instruction (bits): 4
+decode time per instruction (s): 1e-08
+
+*** NoC ***
+mesh_x x mesh_y: 4x4
+clock period (s): 1e-08
+link width (bits): 8
+
+*** Cores ***
+core 0: 0 16 32 48 64 80 96 
+core 1: 1 17 33 49 65 81 97 
+core 2: 2 18 34 50 66 82 98 
+core 3: 3 19 35 51 67 83 99 
+core 4: 4 20 36 52 68 84 
+core 5: 5 21 37 53 69 85 
+core 6: 6 22 38 54 70 86 
+core 7: 7 23 39 55 71 87 
+core 8: 8 24 40 56 72 88 
+core 9: 9 25 41 57 73 89 
+core 10: 10 26 42 58 74 90 
+core 11: 11 27 43 59 75 91 
+core 12: 12 28 44 60 76 92 
+core 13: 13 29 45 61 77 93 
+core 14: 14 30 46 62 78 94 
+core 15: 15 31 47 63 79 95 
+
+*** Statistics ***
+Executed gates: 1000
+Intercore communications: 1318
+Intercore traffic volume (bits): 12544
+Throughput (Mbps): inf avg, inf peak
+Core utilization: 0.625 avg, 0.4 min, 0.8 max
+Intercore communications (row is source, col is target):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 9 0 4 0 0 0 9 0 0 0 0 0 0 0 
+0 6 0 0 9 0 0 0 5 0 0 0 0 0 0 0 
+0 0 0 0 0 0 9 0 0 7 0 0 6 0 0 0 
+0 5 4 0 0 0 0 0 13 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 16 0 0 0 0 0 
+0 0 0 6 0 0 0 0 0 8 0 0 9 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 13 0 6 8 0 
+0 11 6 0 9 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 8 0 0 8 0 0 0 0 0 8 0 0 0 
+0 0 0 0 0 15 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 13 0 0 0 0 0 5 11 0 
+0 0 0 7 0 0 6 0 0 10 0 0 0 0 0 0 
+0 0 0 0 0 0 0 7 0 0 0 9 0 0 7 0 
+0 0 0 0 0 0 0 7 0 0 0 6 0 13 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Operations per qubit: 84, 98, 82, 97, 80, 84, 28, 13, 13, 13, 11, 9, 6, 8, 10, 15, 9, 13, 14, 4, 16, 10, 12, 7, 8, 9, 9, 12, 8, 11, 17, 15, 6, 8, 7, 13, 10, 9, 7, 15, 9, 6, 14, 10, 11, 14, 11, 14, 11, 9, 8, 6, 8, 11, 6, 4, 11, 13, 12, 16, 12, 15, 4, 12, 6, 6, 8, 10, 8, 12, 10, 12, 9, 10, 7, 10, 9, 15, 11, 8, 10, 9, 5, 9, 9, 12, 11, 10, 18, 11, 8, 13, 10, 11, 12, 14, 7, 6, 5, 12, 
+Teleportations per qubit: 0, 2, 1, 4, 3, 2, 7, 5, 5, 8, 2, 1, 3, 3, 4, 0, 0, 4, 4, 2, 6, 1, 5, 3, 2, 1, 1, 1, 4, 5, 5, 0, 0, 3, 3, 6, 4, 5, 3, 9, 3, 2, 4, 5, 3, 5, 7, 0, 0, 2, 5, 1, 2, 3, 1, 2, 5, 5, 3, 7, 2, 4, 3, 0, 0, 2, 4, 2, 2, 3, 4, 3, 4, 1, 2, 4, 4, 5, 5, 0, 0, 5, 3, 3, 5, 4, 5, 4, 5, 4, 1, 7, 6, 4, 4, 0, 0, 3, 3, 6, 
+Communication time (s): 0.000280822
+	EPR pair generation time (s): 0.000194 (69.0829%)
+	EPR pair distribution time (s): 1.94e-09 (0.000690829%)
+	Pre-processing time (s): 7.566e-05 (26.9423%)
+	Classical transfer time (s): 5.34e-06 (1.90156%)
+	Post-processing time (s): 5.82e-06 (2.07249%)
+Computation time (s): 4.05e-06
+Fetch time (s): 1.25e-07
+Decode time (s): 1e-05
+Dispatch time (s): 3.683e-05
+Execution time (s): 0.000331827
+Coherence (%): 28.9917

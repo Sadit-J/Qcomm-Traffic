@@ -2,31 +2,34 @@ from bitlist import bitlist
 from Network import Network, Node
 import math
 import random
+import subprocess
+from UniformGen import uniformGen 
+from ComplementGen import complementGen
+from ReversalGen import reversalGen
 from ShuffleGen import shuffleGen
-from UniformComplementGen import complementGen
-from UniformComplementGen import uniformGen 
-from TranposeGen import transposeGen
-from Hotspot import hotspotGen
-from BitReversalGen import bitReversalGen
 from NearestNeighbourGen import neighbourGen
-from QAE_gen import QAE
+from TransposeGen import transposeGen
+from Hotspot import hotspotGen, generate_hotspot_gates
+from Butterfly import butterflyGen
+from QCNN import qcnnGen
+from QAE import qaeGen
 
 def createNetwork(nodes_num, qubits_per, total_qubits):
     node_list = []
     iteration = 0
+    leftover_qubits = total_qubits
 
     for i in range(nodes_num):
         node_list.append(Node(i, 0, 4))
 
-    while (total_qubits > 0):
+    while (leftover_qubits > 0):
         node_list[iteration % 16].add_qubits(1)
         iteration += 1
-        total_qubits -= 1
+        leftover_qubits -= 1
 
 
     current_network = Network(node_list, qubits_per, total_qubits)    
     return current_network
-
 
 def getUserInput():
     # read and extract parameters from architecture.txt
@@ -68,31 +71,78 @@ def getUserInput():
         probabilities.append(n_qubit_gate_prob) # add probability to list
 
     # ask user for the name of the file the generated circuit will be outputted on
+    patterns = ["uniform.txt", "complement.txt", "reversal.txt", "shuffle.txt", "neighbour.txt", "transpose.txt", "hotspot.txt", "butterfly.txt", "qcnn.txt", "qae.txt"]
     file_name = ""
-    while ".txt" not in file_name:
-        file_name = input("Test circuit file name (include .txt): ")
+    while file_name not in patterns:
+        print("Choices:")
+        for pattern in patterns:
+            print("- "+ pattern)
+        file_name = input("Test circuit file name: ")
 
-    return (number_of_cores, qubits_per_core, number_of_qubits, number_of_gates, usable_qubits, probabilities, file_name, mesh_x, mesh_y) # returns tuple
+    return(number_of_cores, qubits_per_core, number_of_qubits, number_of_gates, usable_qubits, probabilities, file_name, mesh_x, mesh_y) # returns tuple
 
 def main():
     circuit_parameters = getUserInput()
-    
-    # circuit_parameters = (16, 6, 100, 1000, 100, [0.25, 0.75], "circuit.txt");
 
-    file = open(circuit_parameters[6], "w")
+    circuit_path = f"circuits/{circuit_parameters[6]}"
+    simulation_path = f"simulations/{circuit_parameters[6]}"
+
+    file = open(circuit_path, "w")
     current_network = createNetwork(circuit_parameters[0], circuit_parameters[1], circuit_parameters[4])
-    node_list = current_network.available_nodes()
 
+    cmd = ["./qcomm", "-a", "architecture.txt", "-p", "parameters.txt", "-c", circuit_path]
     
-    #shuffleGen(current_network, circuit_parameters[6], circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
-    #transposeGen(current_network, circuit_parameters[6], circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
-    #complementGen(current_network, 1000, file)
-    #uniformGen(current_network, 1000, file)
-    #hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
-    #bitReversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
-    #neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_parameters[6], circuit_parameters[7], circuit_parameters[8])
-    QAE(int(math.sqrt(circuit_parameters[0])),circuit_parameters[1],circuit_parameters[2],circuit_parameters[6])
+    match circuit_parameters[6]:
+        case "uniform.txt":
+            uniformGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
+        case "complement.txt":
+            complementGen(current_network, circuit_parameters[3], file)
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
+        case "reversal.txt":
+            reversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
+        case "shuffle.txt":
+            shuffleGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
+        case "neighbour.txt":
+            neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
+        case "transpose.txt":
+            transposeGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
+        case "hotspot.txt":
+            hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
+        case "butterfly.txt":
+            butterflyGen(current_network, circuit_parameters[3], file)
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
+        case "qcnn.txt":
+            qcnnGen(current_network, file)
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
+        case "qae.txt":
+            qaeGen(int(math.sqrt(circuit_parameters[0])),circuit_parameters[1],circuit_parameters[2],circuit_parameters[6])
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+    
 
     return
 

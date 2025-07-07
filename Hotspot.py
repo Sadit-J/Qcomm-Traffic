@@ -103,3 +103,5 @@ def hotspotGen(gates, file):
                 busy.add(dst)
 
     flush_stage(stage)  # print remaining stage
+    
+    file.close()
