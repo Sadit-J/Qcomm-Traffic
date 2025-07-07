@@ -53,7 +53,7 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
     return traffic
 
 def complementGen(current_network, user_gates, file):
-    total_gates = 0
+    total_gates = 1
     traffic_pattern = []
     possible_nodes = current_network.available_nodes()
     src = possible_nodes[0]
@@ -61,10 +61,12 @@ def complementGen(current_network, user_gates, file):
     bit_complement(current_network, src, src_qubit, traffic_pattern, possible_nodes)
     current_network.free_all_nodes()
 
+
     while total_gates < user_gates:
 
         traffic_pattern += generate_traffic(current_network.get_num_nodes(), current_network, 100, "complement")
         current_network.free_all_nodes()
+        total_gates = len(traffic_pattern)
 
     for src in traffic_pattern:
 
