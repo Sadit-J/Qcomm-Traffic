@@ -74,7 +74,9 @@ def generate_hotspot_gates(network, ngates, p_one_qubit, p_two_qubit):
             num_one_qubit -= 1
 
     return gates
-def hotspotGen(gates, file):
+
+def hotspotGen(network, ngates, p_one_qubit, p_two_qubit, file):
+    gates = generate_hotspot_gates(network, ngates, p_one_qubit, p_two_qubit)
     busy = set()
     stage = []
 
