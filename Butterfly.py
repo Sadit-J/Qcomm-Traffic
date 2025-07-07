@@ -1,5 +1,6 @@
 import random
 import math
+import time
 from zoneinfo import available_timezones
 
 from bitlist import bitlist
@@ -12,12 +13,12 @@ def find_butterfly(network, num):
     dest = 0
     binary_dest = ""
     binary_src = str(bitlist(num, mesh_size))[9:13]
-    #print("SRC: ", num % 16)
-    #print("Binary SRC: ", binary_src)
+    print("SRC: ", num % 16)
+    print("Binary SRC: ", binary_src)
 
     # If the first and last digit are the same, the same number is returned
     if binary_src[0] == binary_src[-1]:
-        #print("DEST unbutterfliable:", num % 16, "\n")
+        print("DEST unbutterfliable:", num % 16, "\n")
         return num % 16
 
     #finds the butterflied binary
@@ -26,20 +27,21 @@ def find_butterfly(network, num):
             binary_dest += str(int(binary_src[i]) + (1 + (-2 * int(binary_src[i]))))
         else:
             binary_dest += binary_src[i]
-    #print("Binary Dest: ", binary_dest)
+    print("Binary Dest: ", binary_dest)
 
     # converts the binary back to decimal
     for d in range(0, len(binary_dest)):
         dest += int(binary_dest[d]) * (2**(len(binary_dest) - d - 1))
 
     # Returns the decimal
-    #print("DEST", dest, "\n")
+    print("DEST", dest, "\n")
+    if int(dest) < 0:
+        time.sleep(80)
     return dest
 
 
 
-def butterflyGen(network, no_gates, file):
-    f = open(f"circuits/{file}", "w")
+def butterflyGen(network, no_gates, f):
     two_gate_chance = 0.5
     restart_chance = 0.1
     dec_av_nodes = []
@@ -66,6 +68,13 @@ def butterflyGen(network, no_gates, file):
             print("Original DST: "  + str(dest) + " %16: " + str(dest%16))
             src = (src % 16) + (16 * network.get_node(src%16).occupy_qubits())
             dest = (dest % 16) + (16 * network.get_node(dest%16).occupy_qubits())
+
+            # If the destination qubit is negative, we try again, there' definitely a better way to fix this, im just too lazy to think of it
+            if dest < 0:
+                print("NAHHHHHHHHHHH")
+                src = random.randint(0, 99)
+                i -= 1
+                continue
             print("NEW SRC: " + str(src))
             print("NEW DST: " + str(dest))
             f.write(f"({src} {dest}) ")
@@ -81,6 +90,8 @@ def butterflyGen(network, no_gates, file):
             network.free_all_nodes()
 
         src = random.randint(0, 99)
+
+    f.close()
 
 
 

@@ -83,15 +83,12 @@ def getUserInput():
 
 def main():
     circuit_parameters = getUserInput()
-    
-    # circuit_parameters = (16, 6, 100, 1000, 100, [0.25, 0.75], "circuit.txt");
 
     circuit_path = f"circuits/{circuit_parameters[6]}"
     simulation_path = f"simulations/{circuit_parameters[6]}"
 
     file = open(circuit_path, "w")
     current_network = createNetwork(circuit_parameters[0], circuit_parameters[1], circuit_parameters[4])
-    node_list = current_network.available_nodes()
 
     cmd = ["./qcomm", "-a", "architecture.txt", "-p", "parameters.txt", "-c", circuit_path]
     
@@ -132,7 +129,7 @@ def main():
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
         case "butterfly.txt":
-            butterflyGen(current_network, circuit_parameters[3], circuit_parameters[6])
+            butterflyGen(current_network, circuit_parameters[3], file)
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
@@ -147,6 +144,5 @@ def main():
     
 
     return
-
 
 main()
