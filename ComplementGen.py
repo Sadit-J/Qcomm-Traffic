@@ -54,24 +54,31 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
 
 def complementGen(current_network, user_gates, file):
     total_gates = 0
+    traffic_pattern = []
+    possible_nodes = current_network.available_nodes()
+    src = possible_nodes[0]
+    src_qubit = src.occupy_qubits()
+    bit_complement(current_network, src, src_qubit, traffic_pattern, possible_nodes)
+    current_network.free_all_nodes()
 
     while total_gates < user_gates:
 
-        traffic_pattern = generate_traffic(current_network.get_num_nodes(), current_network, 100, "complement")
-
-        for src in traffic_pattern:
-
-            if len(src) == 1:
-                file.write(f"({src[0]}) ")
-            else:
-                file.write(f"({src[0]} {src[1]}) ")
-            total_gates += 1
-
-            if (total_gates >=  user_gates):
-                break
-
-        file.write("\n")
+        traffic_pattern += generate_traffic(current_network.get_num_nodes(), current_network, 100, "complement")
         current_network.free_all_nodes()
+
+    for src in traffic_pattern:
+
+        if len(src) == 1:
+            file.write(f"({src[0]}) ")
+        else:
+            file.write(f"({src[0]} {src[1]}) ")
+        total_gates += 1
+
+        if (total_gates >=  user_gates):
+            break
+
+    file.write("\n")
+        
     
 #Uniform Traffic Pattern
 
