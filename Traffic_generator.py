@@ -130,6 +130,7 @@ def main():
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
         case "butterfly.txt":
+            butterflyGen(current_network, circuit_parameters[3], circuit_parameters[6])
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
