@@ -24,7 +24,7 @@ def findCore(dictionary, desired_value):
         if desired_value in number:
             return key
 
-def bitReversalGen(a, b, c, d, q, r, s, t, u):
+def reversalGen(a, b, c, d, q, r, s, t, u):
     cores = a
     qpc = b
     qubits = c

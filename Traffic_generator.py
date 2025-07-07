@@ -3,14 +3,16 @@ from Network import Network, Node
 import math
 import random
 import subprocess
-from ShuffleGen import shuffleGen
-from UniformComplementGen import complementGen
 from UniformComplementGen import uniformGen 
-from TranposeGen import transposeGen
-from Hotspot import hotspotGen
-from BitReversalGen import bitReversalGen
+from UniformComplementGen import complementGen
+from ReversalGen import reversalGen
+from ShuffleGen import shuffleGen
 from NearestNeighbourGen import neighbourGen
+from TransposeGen import transposeGen
+from Hotspot import hotspotGen
 from Butterfly import butterflyGen
+from QCNN import qcnnGen
+# from QAE import qaeGen
 
 def createNetwork(nodes_num, qubits_per, total_qubits):
     node_list = []
@@ -94,34 +96,56 @@ def main():
     
     match circuit_parameters[6]:
         case "uniform.txt":
-            pass
+            uniformGen(current_network, 1000, file)
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "complement.txt":
-            pass
+            complementGen(current_network, 1000, file)
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "reversal.txt":
-            pass
+            reversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "shuffle.txt":
-            pass
+            shuffleGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "neighbour.txt":
             neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "transpose.txt":
-            pass
+            transposeGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "hotspot.txt":
-            pass
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "butterfly.txt":
-            pass
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "qcnn.txt":
-            pass
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
+
         case "qae.txt":
-            pass
+            with open(simulation_path, "w") as outfile:
+                subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
     
-    #shuffleGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
-    #transposeGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
-    #complementGen(current_network, 1000, file)
-    #uniformGen(current_network, 1000, file)
-    #hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
-    #bitReversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
+    #
+    #
+    hotspotGen(generate_hotspot_gates(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1]), file)
+    #
+    #
     
 
     return

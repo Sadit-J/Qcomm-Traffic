@@ -247,7 +247,7 @@ def angleEncoderZZ(window_size, network, circuit_file, reps, workload_list):
 
     circuit_file.write(circuit)
 
-def main():
+def qcnnGen():
     f = open("QCNN_traffic.txt", "w")
     num_qubits = 6
     node_list = []
@@ -265,5 +265,3 @@ def main():
 
 
     cnn_traffic(current_Network, f)
-
-main()
