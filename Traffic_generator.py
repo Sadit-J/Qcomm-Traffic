@@ -11,7 +11,7 @@ from NearestNeighbourGen import neighbourGen
 from TransposeGen import transposeGen
 from Hotspot import hotspotGen
 from Butterfly import butterflyGen
-# from QCNN import qcnnGen
+from QCNN import qcnnGen
 # from QAE import qaeGen
 
 def createNetwork(nodes_num, qubits_per, total_qubits):
@@ -96,7 +96,7 @@ def main():
     
     match circuit_parameters[6]:
         case "uniform.txt":
-            uniformGen(current_network, 1000, file)
+            reversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
@@ -106,7 +106,7 @@ def main():
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
         case "reversal.txt":
-            reversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
+            reversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
             with open(simulation_path, "w") as outfile:
                 subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 

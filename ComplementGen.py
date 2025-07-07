@@ -74,11 +74,12 @@ def complementGen(current_network, user_gates, file):
             file.write(f"({src[0]}) ")
         else:
             file.write(f"({src[0]} {src[1]}) ")
+        '''
         total_gates += 1
 
         if (total_gates >=  user_gates):
             break
-
+        '''
     file.write("\n")
         
     

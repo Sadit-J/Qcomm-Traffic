@@ -7,7 +7,7 @@ def intToList(i):
         my_list.append(number)
     return my_list
 
-def generator(a, b, c, d, q, r, s):
+def uniformGen(a, b, c, d, q, r, s):
     cores = a
     qpc = b
     qubits = c
@@ -61,6 +61,3 @@ def generator(a, b, c, d, q, r, s):
 
             gate_index += 1
             test_circuit.write(string)
-
-if __name__ == "__main__":
-    generator()
