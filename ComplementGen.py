@@ -20,28 +20,6 @@ def bit_complement(network, src, src_qubit, traffic, available_list):
     available_list = network.available_nodes()
     return traffic
 
-
-def uniform_traffic(network, src, src_qubit, destination_list, traffic):
-    two_gate_chance = 0.25
-    dst = src
-    if (random.random() < two_gate_chance):
-        while dst == src and len(destination_list) > 0:
-            chosen_node = random.choice(destination_list)
-            if chosen_node.current_occupation() and chosen_node != src:
-                dst = chosen_node
-                dst_qubit = chosen_node.occupy_random()
-                print(int(dst.get_address()))
-                traffic.append((int(src.get_address()) + network.get_num_nodes() * src_qubit, int(dst.get_address()) + network.get_num_nodes() * dst_qubit))
-                return
-
-            elif len(destination_list) == 1:
-                 dst = chosen_node
-                 break
-
-    traffic.append((int(src.get_address()) + network.get_num_nodes() * src_qubit,))
-    destination_list = network.available_nodes()
-    return dst
-
 def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None):
 
     splice_end_prob = 0.2
@@ -53,19 +31,14 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
 
     traffic = []
     possible_nodes = network.available_nodes()
+    src = possible_nodes[0]
+    chosen_qubit = src.occupy_qubits()
 
     for i in range(slice_complexity):
 
-            src = random.choice(possible_nodes)
-
-            chosen_qubit = src.occupy_random()
             possible_nodes = network.available_nodes()
 
-            if selection.lower() == "complement":
-                bit_complement(network, src, chosen_qubit, traffic, possible_nodes)
-            else:
-                uniform_traffic(network, src, chosen_qubit, possible_nodes, traffic)
-
+            bit_complement(network, src, chosen_qubit, traffic, possible_nodes)
 
             if len(network.available_nodes()) == 0:
                 print("No more available nodes")
@@ -73,6 +46,9 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
 
             if random.random() < splice_end_prob:
                 break
+
+            src = random.choice(possible_nodes)
+            chosen_qubit = src.occupy_random()
 
     return traffic
 
@@ -97,24 +73,27 @@ def complementGen(current_network, user_gates, file):
         file.write("\n")
         current_network.free_all_nodes()
     
-def uniformGen(current_network, user_gates, file):
-    total_gates = 0
+#Uniform Traffic Pattern
 
-    while total_gates < user_gates:
+'''
+def uniform_traffic(network, src, src_qubit, destination_list, traffic):
+    two_gate_chance = 0.25
+    dst = src
+    if (random.random() < two_gate_chance):
+        while dst == src and len(destination_list) > 0:
+            chosen_node = random.choice(destination_list)
+            if chosen_node.current_occupation() and chosen_node != src:
+                dst = chosen_node
+                dst_qubit = chosen_node.occupy_random()
+                print(int(dst.get_address()))
+                traffic.append((int(src.get_address()) + network.get_num_nodes() * src_qubit, int(dst.get_address()) + network.get_num_nodes() * dst_qubit))
+                return
 
-        traffic_pattern = generate_traffic(current_network.get_num_nodes(), current_network, 100, "uniform")
+            elif len(destination_list) == 1:
+                 dst = chosen_node
+                 break
 
-        for src in traffic_pattern:
-
-            if len(src) == 1:
-                file.write(f"({src[0]}) ")
-            else:
-                file.write(f"({src[0]} {src[1]}) ")
-            total_gates += 1
-
-            if (total_gates >=  user_gates):
-                break
-
-        file.write("\n")
-        current_network.free_all_nodes()
-
+    traffic.append((int(src.get_address()) + network.get_num_nodes() * src_qubit,))
+    destination_list = network.available_nodes()
+    return dst
+    '''
