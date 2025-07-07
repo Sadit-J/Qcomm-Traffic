@@ -52,6 +52,17 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
 
     return traffic
 
+def write_file(traffic_pattern, file):
+    for src in traffic_pattern:
+
+        if len(src) == 1:
+            file.write(f"({src[0]}) ")
+        else:
+            file.write(f"({src[0]} {src[1]}) ")
+
+    file.write("\n")
+
+
 def complementGen(current_network, user_gates, file):
     total_gates = 1
     traffic_pattern = []
@@ -59,28 +70,18 @@ def complementGen(current_network, user_gates, file):
     src = possible_nodes[0]
     src_qubit = src.occupy_qubits()
     bit_complement(current_network, src, src_qubit, traffic_pattern, possible_nodes)
-    current_network.free_all_nodes()
+    write_file(traffic_pattern, file)
 
 
     while total_gates < user_gates:
 
-        traffic_pattern += generate_traffic(current_network.get_num_nodes(), current_network, 100, "complement")
+        traffic_pattern = generate_traffic(current_network.get_num_nodes(), current_network, 100, "complement")
+        write_file(traffic_pattern, file)
+
         current_network.free_all_nodes()
-        total_gates = len(traffic_pattern)
+        total_gates += len(traffic_pattern)
 
-    for src in traffic_pattern:
-
-        if len(src) == 1:
-            file.write(f"({src[0]}) ")
-        else:
-            file.write(f"({src[0]} {src[1]}) ")
-        '''
-        total_gates += 1
-
-        if (total_gates >=  user_gates):
-            break
-        '''
-    file.write("\n")
+    
         
     
 #Uniform Traffic Pattern
