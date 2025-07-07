@@ -3,7 +3,7 @@ from Network import Network, Node
 import math
 import random
 import subprocess
-# from UniformComplementGen import uniformGen 
+from UniformGen import uniformGen 
 from ComplementGen import complementGen
 from ReversalGen import reversalGen
 from ShuffleGen import shuffleGen
