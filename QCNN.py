@@ -10,10 +10,10 @@ def write_circuit(circuit, f):
 
         if len(src) == 1:
             f.write(f"({src[0]}) ")
-            print(f"Node {int(src[0])}")
+            # print(f"Node {int(src[0])}")
         else:
 
-            print(f"Node {int(src[0])} → Node {int(src[1])}")
+            # print(f"Node {int(src[0])} → Node {int(src[1])}")
             # print(f"{i}. Qubit {int(src[0].get_address()) * num_qubits + src[0].occupy_qubits()} → Qubit {int(src[1].get_address()) * num_qubits + src[0].occupy_qubits()}")
             f.write(f"({src[0]} {src[1]}) ")
 
@@ -30,7 +30,7 @@ def convolution_operations(occupied_qubits, node_address, circuit_file):
     else:
         qubit_combinations = [(occupied_qubits[0], occupied_qubits[1])]
 
-    print(qubit_combinations)
+    # print(qubit_combinations)
 
     for i in qubit_combinations:
         conv_circuit = conv_param_circuit(i[0], i[1], circuit_file)
@@ -79,10 +79,11 @@ def select_nodes(window_size, network, file):
 
 
             workload.append(int(current_node.get_address()) + network.get_num_nodes() * current_node.occupy_qubits())
-            print("Address:", int(current_node.get_address()), "Qubit", ((workload[len(workload) - 1] - int(current_node.get_address()) ) // 16), "Qubit Number", workload[-1:])
+            # print("Address:", int(current_node.get_address()), "Qubit", ((workload[len(workload) - 1] - int(current_node.get_address()) ) // 16), "Qubit Number", workload[-1:])
 
     else:
-        print("Not enough cores for largest slice")
+        # print("Not enough cores for largest slice")
+        pass
 
 
     return workload
@@ -95,9 +96,9 @@ def qcnnGen(network, circuit_file):
 
     window_size = input_size * input_size
     workload_list = select_nodes(input_size, network, circuit_file)
-    print(window_size)
+    # print(window_size)
  
-    print(workload_list)
+    # print(workload_list)
 
     # encoder
     angleEncoderZ(window_size, network, circuit_file, 1, workload_list)
@@ -107,14 +108,14 @@ def qcnnGen(network, circuit_file):
 
         if (i % 2) == 0:
             #conv layer
-            print("Conv layer")
+            # print("Conv layer")
             convolution_operations(workload_list, network, circuit_file)
         else:
             #pool layer
-            print("Pool layer")
+            # print("Pool layer")
             pooling_operation(workload_list, network, circuit_file)
 
-        print(workload_list)
+        # print(workload_list)
         i += 1
     
     circuit_file.close()

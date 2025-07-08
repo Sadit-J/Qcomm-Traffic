@@ -25,22 +25,22 @@ def create_splice(current_network, oneInputGates,twoInputGates, oneInputChance):
 
             src_address = src_node.get_address()
 
-            print(f"Source : {src_address}")
+            # print(f"Source : {src_address}")
             dst_address = src_address[-1:] + src_address[:-1]  
-            print(f"Target : {dst_address} ")
+            # print(f"Target : {dst_address} ")
             dst_node = current_network.get_node(dst_address) 
             if (dst_node.current_occupation()):
                     dst_qubit = dst_node.occupy_random()
-                    print(f"({src_qubit*current_network.get_num_nodes() + int(src_address)} {dst_qubit*current_network.get_num_nodes() + int(dst_address)})")
+                    # print(f"({src_qubit*current_network.get_num_nodes() + int(src_address)} {dst_qubit*current_network.get_num_nodes() + int(dst_address)})")
 
                     outputSplice.append(f"({src_qubit*current_network.get_num_nodes() + int(src_address)} {dst_qubit*current_network.get_num_nodes() + int(dst_address)})")    
                     twoInputGates -= 1
-            else:
-                node_list.remove(dst_address)
+            elif (dst_node in node_list):
+                node_list.remove(dst_node)
 
 
 
-        if not src_node.current_occupation():
+        if src_node in node_list and not src_node.current_occupation():
             node_list.remove(src_node)
 
         test = random.randint(1,5)

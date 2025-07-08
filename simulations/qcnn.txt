@@ -1,2 +1,0 @@
-qubits must start from 0
-error reading circuit file

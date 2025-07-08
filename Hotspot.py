@@ -31,7 +31,7 @@ def generate_hotspot_gates(network, ngates, p_one_qubit, p_two_qubit):
 
     nqubits = sum(len(node.qubit_list) for node in network.nodes_list)
     if nqubits == 0:
-        print("Error: No qubits available in network.")
+        # print("Error: No qubits available in network.")
         return []
 
     num_one_qubit = int(p_one_qubit * ngates)

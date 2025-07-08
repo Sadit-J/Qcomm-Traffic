@@ -6,11 +6,12 @@ def bit_complement(network, src, src_qubit, traffic, available_list):
     if (random.random() < two_gate_chance):
         dst_address = ~src.get_address()
         if network.get_node(dst_address) is not None and network.get_node(dst_address).current_occupation():
-            print("SRC:", src.get_address(), "DST:", dst_address)
+            # print("SRC:", src.get_address(), "DST:", dst_address)
             dst_qubit = network.get_node(dst_address).occupy_random()
             traffic.append((int(src.get_address()) + network.get_num_nodes() * src_qubit, int(dst_address) + network.get_num_nodes() * dst_qubit))
         else:
-            print("No Destination")
+            # print("No Destination")
+            pass
 
         available_list = network.available_nodes()
 
@@ -42,7 +43,7 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
             bit_complement(network, src, chosen_qubit, traffic, possible_nodes)
 
             if len(network.available_nodes()) == 0:
-                print("No more available nodes")
+                # print("No more available nodes")
                 break
 
             if random.random() < splice_end_prob:
