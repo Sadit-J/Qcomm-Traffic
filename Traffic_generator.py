@@ -105,45 +105,55 @@ def main():
         with open("fat.txt", "a") as outfile:
             outfile.write("\n" + pattern)
 
-            match circuit_parameters[6]:
-                case "uniform.txt":
-                    uniformGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
+        match circuit_parameters[6]:
+            case "uniform.txt":
+                uniformGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "complement.txt":
-                    complementGen(current_network, circuit_parameters[3], file)
+            case "complement.txt":
+                complementGen(current_network, circuit_parameters[3], file)
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "reversal.txt":
-                    reversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
+            case "reversal.txt":
+                reversalGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path)
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "shuffle.txt":
-                    shuffleGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+            case "shuffle.txt":
+                shuffleGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "neighbour.txt":
-                    neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
+            case "neighbour.txt":
+                neighbourGen(circuit_parameters[0], circuit_parameters[1], circuit_parameters[2], circuit_parameters[3], circuit_parameters[4], circuit_parameters[5], circuit_path, circuit_parameters[7], circuit_parameters[8])
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "transpose.txt":
-                    transposeGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+            case "transpose.txt":
+                transposeGen(current_network, circuit_path, circuit_parameters[5][0], circuit_parameters[5][1], circuit_parameters[3])
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "hotspot.txt":
-                    hotspotGen(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1], file)
+            case "hotspot.txt":
+                hotspotGen(current_network, circuit_parameters[3], circuit_parameters[5][0], circuit_parameters[5][1], file)
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "butterfly.txt":
-                    butterflyGen(current_network, circuit_parameters[3], file)
+            case "butterfly.txt":
+                butterflyGen(current_network, circuit_parameters[3], file)
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "qae.txt":
-                    qaeGen(int(math.sqrt(circuit_parameters[0])), circuit_parameters[1], circuit_parameters[2], circuit_path)
+            case "qae.txt":
+                qaeGen(int(math.sqrt(circuit_parameters[0])), circuit_parameters[1], circuit_parameters[2], circuit_path)
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
-                case "qcnn.txt":
-                    qcnnGen(current_network, file)
+            case "qcnn.txt":
+                qcnnGen(current_network, file)
+                with open("fat.txt", "a") as outfile:
                     subprocess.run(cmd, stdout = outfile, stderr = subprocess.STDOUT)
 
         current_network.free_all_nodes()
