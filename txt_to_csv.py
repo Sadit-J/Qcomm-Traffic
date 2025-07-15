@@ -3,7 +3,7 @@ import pandas as pd
 
 def converter():
   # change path to txt file here
-  with open("data.txt", "r") as f:
+  with open("simulations/qbottle3.txt", "r") as f:
     data = f.read()
     blocks = data.split("*** Circuit ***") # splits the data into a list of blocks for each unique circuit
 
@@ -43,7 +43,8 @@ def converter():
         table = buildTable(stats, start, end, name)
         df_list.append(table)
   
-  with open("data.csv", "w") as f:
+  # change path to csv file here
+  with open("simulations/qbottle3.csv", "w") as f:
     plain_text = toPlainText(df_list)
     f.write(plain_text)
 
