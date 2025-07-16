@@ -51,6 +51,7 @@ def create_splice(current_network, oneInputGates,twoInputGates, oneInputChance):
 
 def generateCircuit(current_network, oneInputGates,twoInputGates, oneInputChance, name):
     with open(name,"w") as file:
+        file.write("(0) ")
         while(twoInputGates != 0 or oneInputGates != 0):
             twoInputGates,oneInputGates,outputSplice = create_splice(current_network, oneInputGates,twoInputGates, oneInputChance)
             current_network.free_all_nodes()          
