@@ -23,7 +23,7 @@ def createNetwork(nodes_num, qubits_per, total_qubits):
         node_list.append(Node(i, 0, 4))
 
     while (leftover_qubits > 0):
-        node_list[iteration % 16].add_qubits(1)
+        node_list[iteration % 1].add_qubits(1)
         iteration += 1
         leftover_qubits -= 1
 
@@ -40,7 +40,8 @@ def getUserInput():
 
     number_of_cores = mesh_x * mesh_y
     qubits_per_core = int(read_arch[3].strip("qubits_per_core "))
-    number_of_qubits = qubits_per_core * number_of_cores
+    # number_of_qubits = qubits_per_core * number_of_cores
+    number_of_qubits = 160
     number_of_gates = int(input("Number of gates: "))
 
     usable_qubits = number_of_qubits # initializes variable for while loop
