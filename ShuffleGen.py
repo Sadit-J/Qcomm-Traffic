@@ -18,7 +18,7 @@ def create_splice(current_network, oneInputGates,twoInputGates, oneInputChance):
         chance = random.random()
 
         if (chance < oneInputChance and oneInputGates != 0):
-            outputSplice.append(f"({src_qubit})")
+            outputSplice.append(f"(G1{src_qubit})")
             oneInputGates -= 1
 
         elif (twoInputGates != 0):
@@ -33,7 +33,7 @@ def create_splice(current_network, oneInputGates,twoInputGates, oneInputChance):
                     dst_qubit = dst_node.occupy_random()
                     # print(f"({src_qubit*current_network.get_num_nodes() + int(src_address)} {dst_qubit*current_network.get_num_nodes() + int(dst_address)})")
 
-                    outputSplice.append(f"({src_qubit*current_network.get_num_nodes() + int(src_address)} {dst_qubit*current_network.get_num_nodes() + int(dst_address)})")    
+                    outputSplice.append(f"G2({src_qubit*current_network.get_num_nodes() + int(src_address)} {dst_qubit*current_network.get_num_nodes() + int(dst_address)})")    
                     twoInputGates -= 1
             elif (dst_node in node_list):
                 node_list.remove(dst_node)
