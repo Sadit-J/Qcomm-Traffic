@@ -55,9 +55,9 @@ def write_file(traffic_pattern, file):
     for src in traffic_pattern:
 
         if len(src) == 1:
-            file.write(f"({src[0]}) ")
+            file.write(f"G1({src[0]}) ")
         else:
-            file.write(f"({src[0]} {src[1]}) ")
+            file.write(f"G2({src[0]} {src[1]}) ")
 
     file.write("\n")
 
