@@ -1,5 +1,5 @@
-mesh_x 1
-mesh_y 1
+mesh_x 4
+mesh_y 4
 link_width 8
 qubits_per_core 10
 ltm_ports 2

@@ -13,12 +13,12 @@ def find_butterfly(network, num):
     dest = 0
     binary_dest = ""
     binary_src = str(bitlist(num, mesh_size))[9:13]
-    # print("SRC: ", num % 16)
-    # print("Binary SRC: ", binary_src)
+    print("SRC: ", num % 16)
+    print("Binary SRC: ", binary_src)
 
     # If the first and last digit are the same, the same number is returned
     if binary_src[0] == binary_src[-1]:
-        # print("DEST unbutterfliable:", num % 16, "\n")
+        print("DEST unbutterfliable:", num % 16, "\n")
         return num % 16
 
     #finds the butterflied binary
@@ -27,14 +27,14 @@ def find_butterfly(network, num):
             binary_dest += str(int(binary_src[i]) + (1 + (-2 * int(binary_src[i]))))
         else:
             binary_dest += binary_src[i]
-    # print("Binary Dest: ", binary_dest)
+    print("Binary Dest: ", binary_dest)
 
     # converts the binary back to decimal
     for d in range(0, len(binary_dest)):
         dest += int(binary_dest[d]) * (2**(len(binary_dest) - d - 1))
 
     # Returns the decimal
-    # print("DEST", dest, "\n")
+    print("DEST", dest, "\n")
     if int(dest) < 0:
         time.sleep(80)
     return dest
@@ -48,50 +48,51 @@ def butterflyGen(network, no_gates, f):
     src = 0
 
     for i in range(0, no_gates):
-        # print("\nNEW GATE: " + str(src) + " %16: " + str(src%16) + " Gate No: " + str(i))
+        print("\nNEW GATE: " + str(src) + " %16: " + str(src%16) + " Gate No: " + str(i))
 
         for i in range(0, len(network.available_nodes())):
             dec_av_nodes.append(bin_to_dec(network.available_nodes()[i].get_address()))
-            #print(network.available_nodes()[i].get_available_qubits())
-        # print("Available Nodes: " + str(dec_av_nodes))
+            print(network.available_nodes()[i].get_available_qubits())
+        print("Available Nodes: " + str(dec_av_nodes))
 
         while src%16 not in dec_av_nodes:
-            # print("NODE " + str(src%16) + " IS NOT AVAILABLE")
-            # print("Available Nodes: " + str(dec_av_nodes))
+            print("NODE " + str(src%16) + " IS NOT AVAILABLE")
+            print("Available Nodes: " + str(dec_av_nodes))
             src = random.randint(0, 99)
         dec_av_nodes = []
 
         if random.random() < two_gate_chance:
-            # print("Two qubit gate")
+            print("Two qubit gate")
             dest = find_butterfly(network, src)
-            # print("Original SRC: " + str(src) + " %16: " + str(src%16))
-            # print("Original DST: "  + str(dest) + " %16: " + str(dest%16))
+            print("Original SRC: " + str(src) + " %16: " + str(src%16))
+            print("Original DST: "  + str(dest) + " %16: " + str(dest%16))
             src = (src % 16) + (16 * network.get_node(src%16).occupy_qubits())
             dest = (dest % 16) + (16 * network.get_node(dest%16).occupy_qubits())
 
             # If the destination qubit is negative, we try again, there' definitely a better way to fix this, im just too lazy to think of it
             if dest < 0:
-                # print("NAHHHHHHHHHHH")
+                print("NAHHHHHHHHHHH")
                 src = random.randint(0, 99)
                 i -= 1
                 continue
-            # print("NEW SRC: " + str(src))
-            # print("NEW DST: " + str(dest))
-            f.write(f"({src} {dest}) ")
+            print("NEW SRC: " + str(src))
+            print("NEW DST: " + str(dest))
+            f.write(f"G2({src} {dest}) ")
         else:
-            # print("one qubit gate")
+            print("one qubit gate")
             network.get_node(src%16).occupy_qubits()
-            f.write(f"({src}) ")
-        # print(network.get_node(src % 16).qubit_list)
+            f.write(f"G1({src}) ")
+        print(network.get_node(src % 16).qubit_list)
 
         if len(network.available_nodes()) == 0 or random.random() < restart_chance:
-            # print("reset happened!!!!!!!!!!!!!!!!")
+            print("reset happened!!!!!!!!!!!!!!!!")
             f.write("\n")
             network.free_all_nodes()
 
         src = random.randint(0, 99)
 
     f.close()
+    print("DONE")
 
 
 

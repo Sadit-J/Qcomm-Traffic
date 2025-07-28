@@ -12,6 +12,7 @@ class Network():
     def available_nodes(self):
         free_nodes = []
 
+        print("HERE: ", len(self.nodes_list))
         for node in self.nodes_list:
             if node.current_occupation():
                 free_nodes.append(node)
@@ -116,6 +117,7 @@ class Node():
     # Returns true if there are qubits available, otherwise false
     def current_occupation(self):
         if "0" not in self.qubit_list:
+            # SOME FUNNY BUSINESS IS GOING ON, WHY IS THERE ONLY 1 FREE NODE
             return False
 
         return True

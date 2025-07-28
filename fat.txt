@@ -72,3 +72,20 @@ Number of qubits mapped on core 0 exceeds its capacity.
 qcomm: src/core.cpp:27: Cores::Cores(const Architecture&, const Mapping&): Assertion `false' failed.
 
 reversal.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+uniform.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
+butterfly.txt
