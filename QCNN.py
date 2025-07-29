@@ -20,7 +20,7 @@ def write_circuit(circuit, f):
     return
 
 def conv_param_circuit(qubit_one, qubit_two, circuit_file):
-    return [(qubit_two,), (qubit_two, qubit_one), (qubit_one, qubit_two), (qubit_two,), (qubit_two, qubit_one), (qubit_one,)]
+    return f"Rz({qubit_two})\nCNOT({qubit_two} {qubit_one})\nRz({qubit_one}) Ry({qubit_two})\nCNOT({qubit_one} {qubit_two})\nRy({qubit_two})\nCNOT({qubit_two} {qubit_one})\nRz({qubit_one})\n"
 
 def convolution_operations(occupied_qubits, node_address, circuit_file):
 
@@ -34,14 +34,12 @@ def convolution_operations(occupied_qubits, node_address, circuit_file):
 
     for i in qubit_combinations:
         conv_circuit = conv_param_circuit(i[0], i[1], circuit_file)
-        write_circuit(conv_circuit, circuit_file)
-
-    circuit_file.write("\n")
+        circuit_file.write(conv_circuit)
 
     return
 
 def pool_param_circuit(qubit_one, qubit_two, circuit_file ):
-    return [(qubit_two,), (qubit_two, qubit_one), (qubit_one,), (qubit_two,), (qubit_one, qubit_two), (qubit_two,)]
+    return f"Rz({qubit_two})\nCNOT({qubit_two} {qubit_one})\nRz({qubit_one}) Ry({qubit_two})\nCNOT({qubit_one} {qubit_two})\nRy({qubit_two})\n"
 
 def pooling_operation(occupied_qubits, network, circuit_file):
 
@@ -58,9 +56,7 @@ def pooling_operation(occupied_qubits, network, circuit_file):
         network.get_node(current_node).discard_qubits(pair[0], network.get_num_nodes())
         occupied_qubits.remove(pair[0])
 
-        write_circuit(pool_circuit, circuit_file)
-
-    circuit_file.write("\n")
+    circuit_file.write(pool_circuit)
     return
 
 def select_nodes(window_size, network, file):
