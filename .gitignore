@@ -1,6 +1,7 @@
 obj/
 src/
-LICENSE
-Makefile
 qcomm
 rcg
+circuits/
+simulations/
+qasm2qcomm.py

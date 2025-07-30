@@ -1,4 +1,4 @@
-from encoders import angleEncoderZ, angleEncoderZZ
+from encoders import angleEncoder
 
 def attainParamaters():
     with open ("architecture","r") as file:
@@ -130,8 +130,7 @@ def qaeGen(size, qubits_per_core,numOfQubits,file_name):
         workload_list.append(i)
 
     with open(file_name, "w") as f:
-        angleEncoderZ(initial_size*size*size,network,f,1,workload_list)
-        # angleEncoderZZ(initial_size*size*size,network,f,1,workload_list)
+        angleEncoder("z", workload_list, 1, "full", 2.0, circuit_file)
 
         encoder_layer = encoder(network,initial_size,compressed_size)
         for layer in encoder_layer:

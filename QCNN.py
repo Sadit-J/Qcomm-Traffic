@@ -2,7 +2,7 @@ from bitlist import bitlist
 import random
 import math
 import Network
-from encoders import angleEncoderZ, angleEncoderZZ
+from encoders import angleEncoder
 
 def write_circuit(circuit, f):
 
@@ -97,7 +97,7 @@ def qcnnGen(network, circuit_file):
     # print(workload_list)
 
     # encoder
-    angleEncoderZ(window_size, network, circuit_file, 1, workload_list)
+    angleEncoder(workload_list, 1, "full", 2.0, circuit_file)
     # angleEncoderZZ(window_size, network, circuit_file, 1, workload_list)
 
     while len(workload_list) > 1:
