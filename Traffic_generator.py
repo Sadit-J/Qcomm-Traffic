@@ -9,8 +9,8 @@ from ReversalGen import reversalGen
 from ShuffleGen import shuffleGen
 from NeighbourGen import neighbourGen
 from TransposeGen import transposeGen
-from Hotspot import hotspotGen
-from Butterfly import butterflyGen
+from HotspotGen import hotspotGen
+from ButterflyGen import butterflyGen
 from QCNN import qcnnGen
 from QAE import qaeGen
 

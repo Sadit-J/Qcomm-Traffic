@@ -110,7 +110,11 @@ def neighbourGen(a, b, c, d, q, r, s, t, u):
         gate_index = 0
 
         for gate in random_size_gate_list:
-            string = "("
+            
+            if gate == 1:
+                string = "G1("
+            elif gate == 2:
+                string = "G2("
 
             track_gate = [] # tracks qubits within a gate
 
@@ -155,8 +159,8 @@ def neighbourGen(a, b, c, d, q, r, s, t, u):
             
             # new line if qubit is repeating or the random number generated is greater than 0.5
             if repeating or (random.random() > 0.5 and gate_index != 0):
-                index = string.rfind("(")
-                string = string[:index] + "\n(" + string[index + 1:]
+                index = string.rfind("G")
+                string = string[:index - 1] + f"\n" + string[index:]
 
                 # reset qubit tracker and current slice
                 current_slice = []
