@@ -130,7 +130,7 @@ def qaeGen(size, qubits_per_core,numOfQubits,file_name):
         workload_list.append(i)
 
     with open(file_name, "w") as f:
-        angleEncoder("z", workload_list, 1, "full", 2.0, circuit_file)
+        angleEncoder(workload_list, 1, "full", 2.0, f)
 
         encoder_layer = encoder(network,initial_size,compressed_size)
         for layer in encoder_layer:

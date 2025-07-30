@@ -119,3 +119,7 @@ error reading architecture file
 
 qcnn.txtInvalid attribute reading architecture.yaml: 'mesh_x:'
 error reading architecture file
+
+qae.txt
+qae.txtInvalid attribute reading architecture.yaml: 'mesh_x:'
+error reading architecture file
