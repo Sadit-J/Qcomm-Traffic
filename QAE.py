@@ -10,7 +10,7 @@ def encoder(network,initial_size, compressed_size):
         result = []
         network_size = len(network.getNodes())*len(network.getNodes())
         for i in range(network_size * initial_size):
-            outputSplice.append(f"({i})")
+            outputSplice.append(f"Ry({i})")
         result.append(outputSplice)
         outputSplice = []
         reps = 7
@@ -24,34 +24,35 @@ def encoder(network,initial_size, compressed_size):
                 if layer == 0:
                     if  i == 0:
                         for j in range(network_size):
-                            outputSplice.append(f"({j} {j+network_size})")
+                            outputSplice.append(f"CNOT({j} {j+network_size})")
                     elif i == (reps - 1 ):
                         for j in range(network_size):
-                            outputSplice.append(f"({j+network_size*2}) ({j+network_size*3} {j+network_size*4})")
+                            outputSplice.append(f"Ry({j+network_size*2}) CNOT({j+network_size*3} {j+network_size*4})")
                     else:
                         for j in range(network_size):
-                            outputSplice.append(f"({j+network_size*0} {j+network_size*1}) ({j+network_size*2}) ({j+network_size*3} {j+network_size*4})")
+                            outputSplice.append(f"CNOT({j+network_size*0} {j+network_size*1}) Ry({j+network_size*2}) CNOT({j+network_size*3} {j+network_size*4})")
 
                 if layer  == 1:
                     if i == 0:
                         for j in range(network_size):
-                                outputSplice.append(f"({j}) ({j+network_size*1} {j+network_size*2})")
+                                outputSplice.append(f"Ry({j}) CNOT({j+network_size*1} {j+network_size*2})")
                     elif i == (reps - 1 ):
                         for j in range(network_size):
-                                    outputSplice.append(f"({j+network_size*3}) ({j+network_size*4})")
+                                    outputSplice.append(f"Ry({j+network_size*3}) Ry({j+network_size*4})")
                     else:
                         for j in range(network_size):
-                                outputSplice.append(f"({j}) ({j+network_size*1} {j+network_size*2}) ({j+network_size*3}) ({j+network_size*4})")
+                                outputSplice.append(f"Ry({j}) CNOT({j+network_size*1} {j+network_size*2}) Ry({j+network_size*3}) Ry({j+network_size*4})")
 
 
                 if layer == 2:
                     for j in range(network_size):
-                        outputSplice.append(f"({j+network_size*1}) ({j+network_size*2} {j+network_size*3})")
+                        outputSplice.append(f"Ry({j+network_size*1}) CNOT({j+network_size*2} {j+network_size*3})")
            
                 result.append(outputSplice)
                 outputSplice = []
     
         return result
+
 
 def swap_test(network,initial_size, compressed_size):
     outputSplice = []
