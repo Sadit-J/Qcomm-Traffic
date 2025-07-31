@@ -99,11 +99,14 @@ def main():
         file = open(circuit_path, "w")
         current_network = createNetwork(circuit_parameters[0], circuit_parameters[1], circuit_parameters[4])
 
-        cmd = ["./qcomm", "-c", circuit_path, "-a", "architecture.yaml", "-p", "parameters.yaml"]
+        cmd = ["./../qcomm-main/qcomm", "-c", circuit_path, "-a", "architecture.yaml", "-p", "parameters.yaml"]
 
         print(pattern)
 
         output_file = "simulations/fat.txt"
+
+        with open("simulations/fat.txt", "a") as outfile:
+            outfile.write("\n" + pattern)
 
         match circuit_parameters[6]:
             case "uniform.txt":

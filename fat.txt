@@ -1,0 +1,11 @@
+
+uniform.txt
+complement.txt
+reversal.txt
+shuffle.txt
+neighbour.txt
+transpose.txt
+hotspot.txt
+butterfly.txt
+qae.txt
+qcnn.txt
