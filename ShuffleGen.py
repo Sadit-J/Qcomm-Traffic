@@ -18,7 +18,7 @@ def create_splice(current_network, oneInputGates,twoInputGates, oneInputChance):
         chance = random.random()
 
         if (chance < oneInputChance and oneInputGates != 0):
-            outputSplice.append(f"(G1{src_qubit})")
+            outputSplice.append(f"G1({src_qubit})")
             oneInputGates -= 1
 
         elif (twoInputGates != 0):
