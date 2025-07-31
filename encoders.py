@@ -11,10 +11,10 @@ def angleEncoder(qubit_list, repetitions, entanglement_type, scaling_factor, cir
     bound_circuit = feature_map.assign_parameters(qubit_list)
     qasm_circuit = dumps(bound_circuit)
 
-    with open("encoder_circuit.qasm", "w") as f:
+    with open("circuits/encoder_circuit.qasm", "w") as f:
         f.write(qasm_circuit)
 
-    cmd = ["python", "qasm2qcomm.py", "encoder_circuit.qasm"]
+    cmd = ["python", "qasm2qcomm.py", "circuits/encoder_circuit.qasm"]
     result = subprocess.run(cmd, capture_output = True, text = True, check = True)
 
     encoder_circuit = result.stdout.rstrip()

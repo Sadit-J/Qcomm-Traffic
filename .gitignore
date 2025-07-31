@@ -4,4 +4,6 @@ qcomm
 rcg
 circuits/
 simulations/
+architecture.yaml
+parameters.yaml
 qasm2qcomm.py

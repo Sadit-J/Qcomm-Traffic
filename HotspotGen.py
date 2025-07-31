@@ -85,9 +85,9 @@ def hotspotGen(network, ngates, p_one_qubit, p_two_qubit, file):
             line = []
             for g in stage:
                 if g[1] == -1:
-                    line.append(f"({g[0]})")
+                    line.append(f"G1({g[0]})")
                 else:
-                    line.append(f"({g[0]} {g[1]})")
+                    line.append(f"G2({g[0]} {g[1]})")
             file.write(" ".join(line) + "\n")
 
     for g in gates:

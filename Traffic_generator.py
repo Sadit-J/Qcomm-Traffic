@@ -104,9 +104,6 @@ def main():
         print(pattern)
 
         output_file = "simulations/fat.txt"
-        
-        with open(output_file, "a") as outfile:
-            outfile.write("\n" + pattern)
 
         match circuit_parameters[6]:
             case "uniform.txt":

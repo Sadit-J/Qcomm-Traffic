@@ -12,7 +12,6 @@ class Network():
     def available_nodes(self):
         free_nodes = []
 
-        print("HERE: ", len(self.nodes_list))
         for node in self.nodes_list:
             if node.current_occupation():
                 free_nodes.append(node)
