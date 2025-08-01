@@ -52,7 +52,7 @@ def pooling_operation(occupied_qubits, network, circuit_file):
     #circuit_file.write("Pool Layer: ")
     for pair in pairs:
         pool_circuit = pool_param_circuit(pair[0], pair[1], circuit_file)
-        current_node = pair[0] %  16
+        current_node = pair[0] %  1
         network.get_node(current_node).discard_qubits(pair[0], network.get_num_nodes())
         occupied_qubits.remove(pair[0])
 

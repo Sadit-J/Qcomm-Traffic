@@ -23,7 +23,7 @@ def createNetwork(nodes_num, qubits_per, total_qubits):
         node_list.append(Node(i, 0, 4))
 
     while (leftover_qubits > 0):
-        node_list[iteration % 16].add_qubits(1)
+        node_list[iteration % 1].add_qubits(1)
         iteration += 1
         leftover_qubits -= 1
 
@@ -103,10 +103,7 @@ def main():
 
         print(pattern)
 
-        output_file = "simulations/fat.txt"
-
-        with open("simulations/fat.txt", "a") as outfile:
-            outfile.write("\n" + pattern)
+        output_file = "fat.txt"
 
         match circuit_parameters[6]:
             case "uniform.txt":
