@@ -52,14 +52,15 @@ def generate_traffic(num_nodes, network, slice_complexity, selection, seed=None)
     return traffic
 
 def write_file(traffic_pattern, file):
-    for src in traffic_pattern:
+    if len(traffic_pattern) > 0:
+        for src in traffic_pattern:
 
-        if len(src) == 1:
-            file.write(f"G1({src[0]}) ")
-        else:
-            file.write(f"G2({src[0]} {src[1]}) ")
+            if len(src) == 1:
+                file.write(f"G1({src[0]}) ")
+            else:
+                file.write(f"G2({src[0]} {src[1]}) ")
 
-    file.write("\n")
+        file.write("\n")
 
 
 def complementGen(current_network, user_gates, file):
