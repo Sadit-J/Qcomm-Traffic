@@ -111,7 +111,7 @@ def reversalGen(a, b, c, d, q, r, s):
             # new line if qubit is repeating or the random number generated is greater than 0.5
             if repeating or (random.random() > 0.5 and gate_index != 0):
                 index = string.rfind("G")
-                string = string[:index - 1] + f"\n" + string[index:]
+                string = string[:index - 1] + f"\n"
 
                 # reset qubit tracker and current slice
                 current_slice = []
