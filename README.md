@@ -3,8 +3,6 @@ This repository showcases an all-in-one script to simultaneously generate and si
 
 The content in this repository was developed by [Sadit-J](https://github.com/Sadit-J), [danielpkot](https://github.com/danielpkot), [rahafalost](https://github.com/rahafalost), [justinthdang](https://github.com/justinthdang), and [Ewcw17](https://github.com/Ewcw17) as part of our Summer 2025 undergraduate research assistantship on quantum computing. Feel free to check out the results and findings from our research through [this paper]() we produced (currently in progress)!
 
-All core functionality, architecture, and simulation logic of this repository was created by the original authors of Qcomm. If you use this tool in academic work, please consider citing the original authors and publications associated with Qcomm.
-
 ## Generating and Simulating Circuits
 Qcomm must first be set up locally before using the scripts in this repository. Please first refer to the installation and quick start guide from the [Qcomm repository](https://github.com/mpalesi/qcomm). Once Qcomm is set up, navigate to Traffic_generator.py. Change the path of the architecture.yaml file on **`line 36`** and the executable path of Qcomm on **`line 102`** accordingly to where Qcomm was installed.
 
